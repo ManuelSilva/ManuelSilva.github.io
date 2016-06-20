@@ -18,6 +18,60 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(document).ready(function()
+			{
+				$("#imgAnimate1").hover(
+					function()
+					{
+						$(this).attr("src", "images/gif/zelda.gif");
+					},
+					function()
+					{
+						$(this).attr("src", "images/gifoff/zelda.jpg");
+					});
+					
+				$("#imgAnimate2").hover(
+					function()
+					{
+						$(this).attr("src", "gif/1302919192204.gif");
+					},
+					function()
+					{
+						$(this).attr("src", "STATIC IMAGE URL HERE");
+					});
+				$("#imgAnimate3").hover(
+					function()
+					{
+						$(this).attr("src", "gif/1303642234740.gif");
+					},
+					function()
+					{
+						$(this).attr("src", "STATIC IMAGE URL HERE");
+					});
+				$("#imgAnimate4").hover(
+					function()
+					{
+						$(this).attr("src", "gif/1303822879528.gif");
+					},
+					function()
+					{
+						$(this).attr("src", "STATIC IMAGE URL HERE");
+					});
+				$("#imgAnimate5").hover(
+					function()
+					{
+						$(this).attr("src", "gif/1303825584512.gif");
+					},
+					function()
+					{
+						$(this).attr("src", "STATIC IMAGE URL HERE");
+					});
+			});
+		</script>
+	
+		
 	</head>
 	<body>
 
@@ -40,7 +94,7 @@
 
 						<article class="item thumb" data-width="282">
 							<h2>Automata Experiments</h2>
-							<a href="https://github.com/ManuelSilva/AutomataExperiments" target="_blank"><img src="images/gif/zelda.gif" alt=""></a>
+							<a href="https://github.com/ManuelSilva/AutomataExperiments" target="_blank"><img id="imgAnimate1" src="images/gifoff/zelda.jpg" alt=""></a>
 						</article>
 
 						<article class="item thumb" data-width="384">
@@ -117,6 +171,7 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+			
 
 	</body>
 </html>
