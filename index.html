@@ -26,7 +26,7 @@
 
 						<div id="header" class="item" data-width="400">
 							<div class="inner">
-								<h1>Manuel Silva</h1>
+								<a href = "https://pt.linkedin.com/in/manuel-silva-4b225a71" target="_blank"><h1>Manuel Silva</h1></a>
 								<p>Programmer &<br />
 								Video Game Developer</p>
 							</div>
@@ -36,17 +36,17 @@
 
 						<article class="item thumb" data-width="282">
 							<h2>Automata Experiments</h2>
-							<a href="https://github.com/ManuelSilva/AutomataExperiments" target="_blank"><img src="images/thumbs/dragon16.png" alt=""></a>
+							<a href="https://github.com/ManuelSilva/AutomataExperiments" target="_blank"><img id="zelda" src="images/gifoff/zelda.jpg" alt=""></a>
 						</article>
 
 						<article class="item thumb" data-width="384">
-							<h2>Ad Infinitum</h2>
-							<a href="images/fulls/02.jpg" class="image"><img src="images/thumbs/02.jpg" alt=""></a>
+							<h2>Flocking Experiments</h2>
+							<a href="https://github.com/ManuelSilva/FlockingExperiments" target="_blank"><img src="images/thumbs/Flocking.jpg" alt=""></a>
 						</article>
 
 						<article class="item thumb" data-width="274">
 							<h2>Different.</h2>
-							<a href="images/fulls/03.jpg" class="image"><img src="images/thumbs/03.jpg" alt=""></a>
+							<a href="images/gif/giphy.gif" class="image"><img src="images/gif/giphy.gif" alt=""></a>
 						</article>
 
 						<article class="item thumb" data-width="282">
@@ -103,7 +103,22 @@
 
 		</div>
 
-		<!-- Scripts -->
+	
+			<script src="assets/js/jquery.min.js" type="text/javascript">>
+				console.log("got in2");
+				$(function() {
+					console.log("got in1");
+					$("#zelda").hover(
+						function() {
+							$(this).attr("src", "images/gif/zelda.gif");
+						},
+						function() {
+							$(this).attr("src", "images/gif/zelda.gif");
+						}	                         
+					);                  
+				});
+			</script>
+		
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.poptrox.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
