@@ -1,137 +1,123 @@
 <!DOCTYPE html>
+<html lang="en">
+	<head>
+	<!--
+		Shader and Textures made by Manuel Silva 
+		based in lava shader by "http://irrlicht.sourceforge.net/phpBB2/viewtopic.php?t=21057" TheGameMaker
+	-->
+		<title>three.js experiment</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				color: #ffffff;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
 
-<html>
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
 
-<head>
-    <title>Training zone</title>
-    <script type="text/javascript" src="assets/js/three.min.js"></script>
-    <style>
-        body {
-            /* set margin to 0 and overflow to hidden, to go fullscreen */
-            margin: 0;
-            overflow: hidden;
-        }
-    </style>
-</head>
-<body>
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			}
 
-<!-- Div which will hold the Output -->
-<div id="WebGL-output">
-</div>
+			a {
 
-<!-- Javascript code that runs our Three.js examples -->
-<script type="text/javascript">
+				color: #ffffff;
+			}
 
-    // once everything is loaded, we run our Three.js stuff.
-    function init() {
+			#oldie a { color:#da0 }
+		</style>
+	</head>
+	<body>
 
-        // create a scene, that will hold all our elements such as objects, cameras and lights.
-        var scene = new THREE.Scene();
+		<div id="container"></div>
+		<div id="info"><a href="http://threejs.org" target="_blank">three.js</a> - Binary Sci-Fi shader material demo by Manuel Silva.</div>
 
-        // create a camera, which defines where we're looking at.
-        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+		<script src="js/three.min.js"></script>
 
-        // create a render and set the size
-        var renderer = new THREE.WebGLRenderer();
-        //renderer.setClearColorHex();
-        renderer.setClearColor(new THREE.Color(0xEEEEEE));
-        renderer.setSize(window.innerWidth, window.innerHeight);
+		<script src="js/shaders/ConvolutionShader.js"></script>
+		<script src="js/shaders/CopyShader.js"></script>
+		<script src="js/shaders/FilmShader.js"></script>
 
-        // show axes in the screen
-        var axes = new THREE.AxisHelper(20);
-        scene.add(axes);
+		<script src="js/postprocessing/EffectComposer.js"></script>
+		<script src="js/postprocessing/ShaderPass.js"></script>
+		<script src="js/postprocessing/MaskPass.js"></script>
+		<script src="js/postprocessing/RenderPass.js"></script>
 
-        // create the ground plane
-        var planeGeometry = new THREE.PlaneGeometry(60, 20);
-        var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc});
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+		<script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>
 
-        // rotate and position the plane
-        plane.rotation.x = -0.5 * Math.PI;
-        plane.position.x = 5;
-        plane.position.y = 0;
-        plane.position.z = 0;
+		<script src="js/MatrixLetters.js"></script>
 
-        // add the plane to the scene
-        scene.add(plane);
+		<script id="fragmentShader" type="x-shader/x-fragment">
 
-		//CREATE SUDO CAR
+			uniform float time;
+			uniform vec2 resolution;
+
+			uniform float fogDensity;
+			uniform vec3 fogColor;
+
+			uniform sampler2D texture1;
+			uniform sampler2D texture2;
+
+			varying vec2 vUv;
+
+			void main( void ) {
+
+				vec2 position = -1.0 + 2.0 * vUv;
+
+				vec4 noise = texture2D( texture1, vUv );
+				vec2 T1 = vUv + vec2( 1.5, -1.5 ) * time  *0.02;
+				vec2 T2 = vUv + vec2( -0.5, 2.0 ) * time * 0.15;
+
+				T1.x -= noise.x * 2.0;
+				T1.y += noise.y * 2.0;
+				T2.x -= noise.y * 0.2;
+				T2.y += noise.z * 0.2;
+
+				float p = texture2D( texture1, T1 * 2.0 ).a;
+
+				vec4 color = texture2D( texture2, T2 * 2.0 );
+				vec4 temp = color * ( vec4( p, p, p, p ) * 2.0 ) + ( color * color - 0.1 );
+
+				if( temp.r > 1.0 ){ temp.bg += clamp( temp.r - 2.0, 0.0, 100.0 ); }
+				if( temp.g > 1.0 ){ temp.rb += temp.g - 1.0; }
+				if( temp.b > 1.0 ){ temp.rg += temp.b - 1.0; }
+
+				gl_FragColor = temp;
+				
+				float depth = gl_FragCoord.z / gl_FragCoord.w;
+				const float LOG2 = 1.442695;
+				float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );
+				fogFactor = 1.0 - clamp( fogFactor, 0.0, 1.0 );
+
+				gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );
+
+			}</script>
+
+		<script id="vertexShader" type="x-shader/x-vertex">
+
+			uniform vec2 uvScale;
+			varying vec2 vUv;
+
+			void main()
+			{
+
+				vUv = uvScale * uv;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_Position = projectionMatrix * mvPosition;
+
+			}</script>
+
+		<script src="js/matrixScene.js"></script>
 		
-        // create a cube
-        var cubeGeometry = new THREE.BoxGeometry(9, 5, 6);
-        var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: false});
-        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-	
-        // position the cube
-        cube.position.x = 0;
-        cube.position.y = 5	;
-        cube.position.z = 0;
-
-        // add the cube to the scene
-        scene.add(cube);
-		
-		var wheelGeometry = new THREE.TorusGeometry(3,1,16,16);
-		var wheelMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe:true});
-		var wheel1 = new THREE.Mesh(wheelGeometry, wheelMaterial);
-		var wheel2 = new THREE.Mesh(wheelGeometry, wheelMaterial);
-		var wheel3 = new THREE.Mesh(wheelGeometry, wheelMaterial);
-		var wheel4 = new THREE.Mesh(wheelGeometry, wheelMaterial);
-		
-		wheel1.position.x = 5;
-		wheel1.position.y = 5;
-		wheel1.position.z = 5;
-		
-		wheel2.position.x = -5;
-		wheel2.position.y =  5;
-		wheel2.position.z = -5;
-		
-		wheel3.position.x = -5;
-		wheel3.position.y =  5;
-		wheel3.position.z =  5;
-		
-		wheel4.position.x =  5;
-		wheel4.position.y =  5;
-		wheel4.position.z = -5;
-		
-		
-		scene.add(wheel1);
-		scene.add(wheel2);
-		scene.add(wheel3);
-		scene.add(wheel4);
-		
-		
-		
-
-        /*// create a sphere
-        var sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
-        var sphereMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
-        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-
-        // position the sphere
-        sphere.position.x = 20;
-        sphere.position.y = 4;
-        sphere.position.z = 2;
-
-        // add the sphere to the scene
-        scene.add(sphere);
-
-		*/
-		
-        // position and point the camera to the center of the scene
-        camera.position.x = 30;
-        camera.position.y = 30;
-        camera.position.z = 30;
-        camera.lookAt(scene.position);
-
-        // add the output of the renderer to the html element
-        document.getElementById("WebGL-output").appendChild(renderer.domElement);
-
-        // render the scene
-        renderer.render(scene, camera);
-    }
-    window.onload = init;
-
-</script>
-</body>
+	</body>
 </html>
