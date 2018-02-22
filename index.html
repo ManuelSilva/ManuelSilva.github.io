@@ -10,6 +10,27 @@
 <script type="text/javascript">
   $(document).ready(function()
   {
+     $("#imgAnimate1").hover(
+      function()
+      {
+        $(this).attr("src", "images/gif/clouds.gif");
+      },
+      function()
+      {
+        $(this).attr("src", "images/gifoff/clouds.png");
+      });
+
+
+      $("#imgAnimate2").hover(
+      function()
+      {
+        $(this).attr("src", "images/gif/chrono.gif");
+      },
+      function()
+      {
+        $(this).attr("src", "images/gifoff/chrono.png");
+      });
+
     $("#imgAnimate3").hover(
       function()
       {
@@ -20,15 +41,6 @@
         $(this).attr("src", "images/gifoff/circumference.jpg");
       });
 
-     $("#imgAnimate1").hover(
-      function()
-      {
-        $(this).attr("src", "images/gif/clouds.gif");
-      },
-      function()
-      {
-        $(this).attr("src", "images/gifoff/clouds.png");
-      });
   });
 </script>
 <style>
@@ -132,11 +144,31 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <p>Implementation of the Dobashi's paper: "A simple, efficient method for realistic animation of clouds" and Chapter 13 from GPU Gems 3: "Volumetric Light Scattering as a Post-Process"</p>
           <a href="https://www.youtube.com/watch?v=Y9b7SbCJtjU" target="_blank">
             <div class="w3-display-container w3-center w3-border w3-border-blue">
-                <img id="imgAnimate1" src="images/gifoff/clouds.png" style="width:50%" alt="Circumference">
+                <img id="imgAnimate1" src="images/gifoff/clouds.png" style="width:100%" alt="Circumference">
             </div>
           </a>
           <hr>
         </div>
+
+        <div class="w3-container">
+          <!--a href="https://bitbucket.org/nocluepy/pygame" target="_blank"-->
+            <h5 class="w3-opacity"><b>Chronotopia</b></h5>
+          <!--/a-->
+          <h6 class="w3-text-blue">2018</h6>
+          <p>Project done for the course "Game Design" developed in Unity3D
+            Implemented several gameplay features and in-editor tools to help my colleagues quickly design
+            and prototype levels and puzzles by creating scripts to automate repetitive behaviours and setting
+            up a comprehensive 2D map editor to cut down development time.
+          </p>
+          <!--a href="https://bitbucket.org/nocluepy/pygame" target="_blank"-->
+            <div class="w3-display-container w3-center w3-border w3-border-blue">
+                <img id="imgAnimate2" src="images/gifoff/chrono.png" style="width:100%" alt="Chronotopia">
+            </div>
+          <!--/a-->
+          <hr>
+        </div>
+
+
         <div class="w3-container">
           <a href="https://bitbucket.org/nocluepy/pygame" target="_blank">
             <h5 class="w3-opacity"><b>Circumference</b></h5>
@@ -145,7 +177,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <p>2D Arcade Game done by Manuel Silva and Ricardo Pereira created with Python and Pygame achieving 3rd place at a contest hosted in Instituto Superior Técnico programmed and designed in the time span of 10 days.</p>
           <a href="https://bitbucket.org/nocluepy/pygame" target="_blank">
             <div class="w3-display-container w3-center w3-border w3-border-blue">
-                <img id="imgAnimate3" src="images/gifoff/circumference.jpg" style="width:50%" alt="Circumference">
+                <img id="imgAnimate3" src="images/gifoff/circumference.jpg" style="width:100%" alt="Circumference">
             </div>
           </a>
           <hr>
