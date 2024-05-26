@@ -8,6 +8,20 @@
 <link rel="stylesheet" href="font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+    // Function to preload the GIF
+    function preloadGif(url) {
+        const img = new Image();
+        img.src = url;
+        return img;
+    }
+
+    // Preload the GIF on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        preloadGif('images/CP77.gif');
+        preloadGif('images/rogueMage.gif');
+    });
+
   $(document).ready(function()
   {
      $("#imgAnimate1").hover(
